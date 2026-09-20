@@ -1,0 +1,28 @@
+name: Test Mer Blog
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        run: |
+          pip install requests beautifulsoup4 playwright
+          playwright install --with-deps chromium
+
+      - name: Fetch Naver blog post
+        run: |
+          python naver_blog_fetch.py \
+            --blog-id ranto28 \
+            --log-no 224417472652
